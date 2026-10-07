@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   keywords: ["ecommerce", "clothing", "electronics", "shoes", "marketplace", "Lamure", "Egypt", "مصر", "تسوق"],
   authors: [{ name: "Lamure Egypt" }],
   icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+    icon: "/logo.svg",
   },
   openGraph: {
     title: "Lamure — Premium Egyptian Marketplace",

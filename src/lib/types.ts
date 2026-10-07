@@ -31,15 +31,6 @@ export interface CategoryDTO {
   productCount: number
 }
 
-export function parseProductImages(images: string): string[] {
-  try {
-    const arr = JSON.parse(images)
-    if (Array.isArray(arr)) return arr as string[]
-    return []
-  } catch {
-    return []
-  }
-}
 
 export function discountedPrice(price: number, discount: number): number {
   return price * (1 - discount / 100)
