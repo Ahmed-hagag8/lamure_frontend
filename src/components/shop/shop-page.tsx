@@ -32,7 +32,7 @@ export function ShopPage({ initialProducts, categories, initialCategory, initial
   const [search, setSearch] = React.useState(initialSearch ?? '')
   const [category, setCategory] = React.useState<string>(initialCategory ?? 'all')
   const [sort, setSort] = React.useState('newest')
-  const [priceRange, setPriceRange] = React.useState<number[]>([0, 350])
+  const [priceRange, setPriceRange] = React.useState<number[]>([0, 5000])
   const [showFilters, setShowFilters] = React.useState(false)
 
   // Filter+sort locally for responsiveness
@@ -64,7 +64,7 @@ export function ShopPage({ initialProducts, categories, initialCategory, initial
   function clearFilters() {
     setCategory('all')
     setSearch('')
-    setPriceRange([0, 350])
+    setPriceRange([0, 5000])
     setSort('newest')
   }
 
@@ -140,14 +140,14 @@ export function ShopPage({ initialProducts, categories, initialCategory, initial
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <label className="text-xs font-medium text-muted-foreground">Price range</label>
-                <span className="text-xs font-medium">${priceRange[0]} – ${priceRange[1]}</span>
+                <span className="text-xs font-medium">{priceRange[0]} – {priceRange[1]} EGP</span>
               </div>
               <Slider
                 value={priceRange}
                 onValueChange={setPriceRange}
                 min={0}
-                max={350}
-                step={10}
+                max={5000}
+                step={50}
                 className="mt-2"
               />
             </div>

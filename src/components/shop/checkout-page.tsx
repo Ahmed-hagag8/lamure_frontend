@@ -36,7 +36,7 @@ export function CheckoutPage() {
   const [address, setAddress] = React.useState(user?.address ?? '')
   const [city, setCity] = React.useState('')
   const [zip, setZip] = React.useState('')
-  const [country, setCountry] = React.useState('United States')
+  const [country, setCountry] = React.useState('Egypt')
 
   // Card form (test only)
   const [cardNumber, setCardNumber] = React.useState('4242 4242 4242 4242')
@@ -45,8 +45,8 @@ export function CheckoutPage() {
   const [cvc, setCvc] = React.useState('123')
 
   const subtotal = lines.reduce((s, l) => s + discountedPrice(l.price, l.discount) * l.quantity, 0)
-  const shipping = subtotal > 75 ? 0 : 9.99
-  const tax = subtotal * 0.08
+  const shipping = subtotal > 500 ? 0 : 50
+  const tax = subtotal * 0.14
   const total = subtotal + shipping + tax
 
   React.useEffect(() => {

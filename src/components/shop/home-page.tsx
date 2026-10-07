@@ -27,8 +27,8 @@ const CATEGORY_ICONS: Record<string, any> = {
 const HERO_SLIDES = [
   {
     eyebrow: 'New season · 2026',
-    title: 'Style that moves with you',
-    description: 'Discover the season\'s freshest clothing, electronics, and shoes — curated by Lumora.',
+    title: 'Egyptian elegance, modern style',
+    description: 'Discover the season\'s freshest clothing, electronics, and shoes — curated by Lamure for Egypt.',
     cta: 'Shop the collection',
     image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1200&q=80',
     accent: 'from-chart-3/30 via-primary/15 to-transparent',
@@ -36,7 +36,7 @@ const HERO_SLIDES = [
   {
     eyebrow: 'Tech that empowers',
     title: 'Next-gen gadgets, today',
-    description: 'From noise-cancelling audio to smart wearables — find the gear that fits your life.',
+    description: 'From noise-cancelling audio to smart wearables — find the gear that fits your Egyptian lifestyle.',
     cta: 'Explore electronics',
     image: 'https://images.unsplash.com/photo-1498049794561-7780e7231661?w=1200&q=80',
     accent: 'from-chart-2/30 via-chart-2/10 to-transparent',
@@ -44,7 +44,7 @@ const HERO_SLIDES = [
   {
     eyebrow: 'Step into the moment',
     title: 'Footwear for every step',
-    description: 'Run, hike, or stroll in style with our premium selection of shoes.',
+    description: 'Run, hike, or stroll in style with our premium selection of shoes, designed for Egypt\'s streets.',
     cta: 'Browse shoes',
     image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=1200&q=80',
     accent: 'from-chart-4/30 via-chart-4/10 to-transparent',
@@ -137,9 +137,9 @@ export function HomePage({ categories, featured }: HomeProps) {
       <section className="border-y bg-card">
         <div className="mx-auto grid max-w-7xl grid-cols-2 gap-4 px-4 py-6 lg:grid-cols-4 lg:px-6">
           {[
-            { icon: Truck, title: 'Free shipping', desc: 'On orders over $75' },
+            { icon: Truck, title: 'Free shipping', desc: 'On orders over 500 EGP' },
             { icon: RefreshCw, title: '30-day returns', desc: 'Hassle-free refunds' },
-            { icon: ShieldCheck, title: 'Secure payments', desc: 'Powered by Stripe (test)' },
+            { icon: ShieldCheck, title: 'Secure payments', desc: 'Cash on delivery & cards' },
             { icon: Headphones, title: '24/7 support', desc: 'We are here to help' },
           ].map(({ icon: Icon, title, desc }) => (
             <div key={title} className="flex items-center gap-3">
@@ -163,7 +163,7 @@ export function HomePage({ categories, featured }: HomeProps) {
               <Sparkles className="h-3 w-3" /> Browse
             </Badge>
             <h2 className="text-3xl font-bold tracking-tight">Shop by category</h2>
-            <p className="mt-1 text-muted-foreground">Find exactly what you need across our curated departments.</p>
+            <p className="mt-1 text-muted-foreground">Find exactly what you need across our curated Egyptian departments.</p>
           </div>
           <Button variant="ghost" className="hidden sm:flex gap-2 shrink-0" onClick={() => navigate({ name: 'shop' })}>
             View all <ArrowRight className="h-4 w-4" />
@@ -229,7 +229,7 @@ export function HomePage({ categories, featured }: HomeProps) {
               <TrendingUp className="h-3 w-3" /> Trending
             </Badge>
             <h2 className="text-3xl font-bold tracking-tight">Featured products</h2>
-            <p className="mt-1 text-muted-foreground">Hand-picked favorites our customers love.</p>
+            <p className="mt-1 text-muted-foreground">Hand-picked favorites loved by our Egyptian customers.</p>
           </div>
           <Button variant="ghost" className="hidden sm:flex gap-2 shrink-0" onClick={() => navigate({ name: 'shop' })}>
             See all <ArrowRight className="h-4 w-4" />
@@ -258,7 +258,7 @@ export function HomePage({ categories, featured }: HomeProps) {
                 Mega Sale — up to 50% off premium picks
               </h2>
               <p className="text-primary-foreground/80">
-                Refresh your wardrobe, gear up with new tech, and treat your feet. Don\'t miss our biggest seasonal markdown.
+                Refresh your wardrobe, gear up with new tech, and treat your feet. Don't miss our biggest seasonal markdown — delivered to your doorstep across Egypt.
               </p>
               <Button size="lg" variant="secondary" className="gap-2" onClick={() => navigate({ name: 'shop' })}>
                 Shop the sale <ArrowRight className="h-4 w-4" />
@@ -286,15 +286,15 @@ export function HomePage({ categories, featured }: HomeProps) {
           <Badge variant="secondary" className="mb-2 gap-1 rounded-full">
             <Star className="h-3 w-3 fill-current" /> Reviews
           </Badge>
-          <h2 className="text-3xl font-bold tracking-tight">Loved by shoppers worldwide</h2>
-          <p className="mt-1 text-muted-foreground">Real experiences from the Lumora community.</p>
+          <h2 className="text-3xl font-bold tracking-tight">Loved by shoppers across Egypt</h2>
+          <p className="mt-1 text-muted-foreground">Real experiences from the Lamure community.</p>
         </div>
 
         <div className="grid gap-5 md:grid-cols-3">
           {[
-            { name: 'Sophia R.', role: 'Verified Customer', text: 'The site is gorgeous and checkout was effortless. My order arrived in 2 days. Will definitely shop again!', rating: 5 },
-            { name: 'Liam T.', role: 'Verified Customer', text: 'Quality of the electronics blew me away. The price tracking and discounts are genuinely useful.', rating: 5 },
-            { name: 'Ava M.', role: 'Verified Customer', text: 'Best shoe selection I have seen in a while. The product pages are clean and the photos are stunning.', rating: 4.5 },
+            { name: 'Nour El-Din', role: 'Verified Customer · Cairo', text: 'The site is gorgeous and checkout was effortless. My order arrived in 2 days right to my doorstep in Maadi. Will definitely shop again!', rating: 5 },
+            { name: 'Yasmin Ahmed', role: 'Verified Customer · Alexandria', text: 'Quality of the electronics blew me away. The price tracking and discounts in EGP are genuinely useful. Best online shopping in Egypt!', rating: 5 },
+            { name: 'Omar Hassan', role: 'Verified Customer · Giza', text: 'Best shoe selection I have seen from an Egyptian store. The product pages are clean and the photos are stunning. Cash on delivery made it easy.', rating: 4.5 },
           ].map((t, i) => (
             <motion.div
               key={t.name}

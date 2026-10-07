@@ -20,8 +20,8 @@ export function CartPage() {
 
   const subtotal = lines.reduce((sum, l) => sum + discountedPrice(l.price, l.discount) * l.quantity, 0)
   const savings = lines.reduce((sum, l) => sum + l.price * (l.discount / 100) * l.quantity, 0)
-  const shipping = subtotal > 75 || subtotal === 0 ? 0 : 9.99
-  const tax = subtotal * 0.08
+  const shipping = subtotal > 500 || subtotal === 0 ? 0 : 50
+  const tax = subtotal * 0.14
   const total = subtotal + shipping + tax
   const canCheckout = (role === 'CUSTOMER' || role === 'ADMIN') && lines.length > 0
 
@@ -126,7 +126,7 @@ export function CartPage() {
                 <span className="font-medium">{shipping === 0 ? 'Free' : formatPrice(shipping)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Tax (8%)</span>
+                <span className="text-muted-foreground">Tax (14%)</span>
                 <span className="font-medium">{formatPrice(tax)}</span>
               </div>
               <Separator className="my-2" />

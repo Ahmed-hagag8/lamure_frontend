@@ -13,9 +13,9 @@ import { useAuth } from '@/lib/store'
 import { toast } from 'sonner'
 
 const DEMO_ACCOUNTS = [
-  { label: 'Admin', email: 'admin@shop.dev', password: 'admin123', role: 'ADMIN' },
-  { label: 'Supplier', email: 'supplier@shop.dev', password: 'supplier123', role: 'SUPPLIER' },
-  { label: 'Customer', email: 'customer@shop.dev', password: 'customer123', role: 'CUSTOMER' },
+  { label: 'Admin', email: 'admin@lamure.eg', password: 'admin123', role: 'ADMIN' },
+  { label: 'Supplier', email: 'supplier@lamure.eg', password: 'supplier123', role: 'SUPPLIER' },
+  { label: 'Customer', email: 'customer@lamure.eg', password: 'customer123', role: 'CUSTOMER' },
 ]
 
 export function AuthPage({ mode: initialMode = 'login' }: { mode?: 'login' | 'register' }) {
@@ -83,7 +83,7 @@ export function AuthPage({ mode: initialMode = 'login' }: { mode?: 'login' | 're
               <Sparkles className="h-3.5 w-3.5" /> Premium marketplace
             </div>
             <h2 className="text-3xl font-bold leading-tight">Shop, sell, and manage — all in one place.</h2>
-            <p className="text-sm text-primary-foreground/80">Lumora connects customers, suppliers, and admins in a beautifully crafted commerce experience.</p>
+            <p className="text-sm text-primary-foreground/80">Lamure connects Egyptian customers, suppliers, and admins in a beautifully crafted commerce experience.</p>
           </div>
           <div className="relative space-y-3">
             {[
@@ -108,7 +108,7 @@ export function AuthPage({ mode: initialMode = 'login' }: { mode?: 'login' | 're
               {mode === 'login' ? 'Welcome back' : 'Create your account'}
             </CardTitle>
             <CardDescription>
-              {mode === 'login' ? 'Sign in to continue to your account.' : 'Join Lumora and start shopping or selling.'}
+              {mode === 'login' ? 'Sign in to continue to your account.' : 'Join Lamure Egypt and start shopping or selling.'}
             </CardDescription>
           </CardHeader>
 

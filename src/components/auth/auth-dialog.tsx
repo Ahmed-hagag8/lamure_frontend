@@ -13,9 +13,9 @@ import { useRouter } from '@/lib/router'
 import { Sparkles, ShieldCheck, Truck, BadgeCheck } from 'lucide-react'
 
 const DEMO_ACCOUNTS = [
-  { label: 'Admin', email: 'admin@shop.dev', password: 'admin123', role: 'ADMIN' },
-  { label: 'Supplier', email: 'supplier@shop.dev', password: 'supplier123', role: 'SUPPLIER' },
-  { label: 'Customer', email: 'customer@shop.dev', password: 'customer123', role: 'CUSTOMER' },
+  { label: 'Admin', email: 'admin@lamure.eg', password: 'admin123', role: 'ADMIN' },
+  { label: 'Supplier', email: 'supplier@lamure.eg', password: 'supplier123', role: 'SUPPLIER' },
+  { label: 'Customer', email: 'customer@lamure.eg', password: 'customer123', role: 'CUSTOMER' },
 ]
 
 export function AuthDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v: boolean) => void }) {
@@ -111,7 +111,7 @@ export function AuthDialog({ open, onOpenChange }: { open: boolean; onOpenChange
                   Shop, sell, and manage — all in one place.
                 </h2>
                 <p className="text-sm text-primary-foreground/80">
-                  Lumora connects customers, suppliers, and admins in a beautifully crafted commerce experience.
+                  Lamure connects Egyptian customers, suppliers, and admins in a beautifully crafted commerce experience.
                 </p>
               </div>
             </div>
@@ -134,7 +134,7 @@ export function AuthDialog({ open, onOpenChange }: { open: boolean; onOpenChange
           {/* Form side */}
           <div className="p-6 md:p-8">
             <DialogHeader>
-              <DialogTitle className="text-2xl">Welcome to Lumora</DialogTitle>
+              <DialogTitle className="text-2xl">Welcome to Lamure</DialogTitle>
               <DialogDescription>Sign in or create an account to continue.</DialogDescription>
             </DialogHeader>
 

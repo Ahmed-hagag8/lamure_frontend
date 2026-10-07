@@ -35,9 +35,9 @@ export function ContactPage() {
 
       <div className="grid gap-6 md:grid-cols-3">
         {[
-          { icon: Mail, title: 'Email us', value: 'hello@lumora.shop', desc: 'General inquiries' },
-          { icon: Phone, title: 'Call us', value: '+1 (555) 010-2030', desc: 'Mon–Fri, 9am–6pm' },
-          { icon: MapPin, title: 'Visit us', value: '123 Market St, San Francisco', desc: 'CA 94103, USA' },
+          { icon: Mail, title: 'Email us', value: 'hello@lamure.eg', desc: 'General inquiries' },
+          { icon: Phone, title: 'Call us', value: '+20 2 2345 6789', desc: 'Sat–Thu, 9am–6pm (Cairo Time)' },
+          { icon: MapPin, title: 'Visit us', value: '15 El-Tahrir St, Downtown', desc: 'Cairo, Egypt' },
         ].map(({ icon: Icon, title, value, desc }) => (
           <Card key={title} className="text-center hover-lift">
             <CardContent className="p-6">
@@ -60,7 +60,7 @@ export function ContactPage() {
             </div>
             <div>
               <h2 className="text-xl font-semibold">Send us a message</h2>
-              <p className="text-sm text-muted-foreground">Fill out the form below and we\'ll get back to you.</p>
+              <p className="text-sm text-muted-foreground">Fill out the form below and we'll get back to you.</p>
             </div>
           </div>
 

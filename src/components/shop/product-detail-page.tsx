@@ -258,7 +258,7 @@ export function ProductDetailPage({ productId, initialProduct }: { productId: st
           {/* Trust */}
           <div className="grid grid-cols-3 gap-3 rounded-xl border bg-card p-4">
             {[
-              { icon: Truck, title: 'Free shipping', desc: 'Orders > $75' },
+              { icon: Truck, title: 'Free shipping', desc: 'Orders > 500 EGP' },
               { icon: RefreshCw, title: '30-day returns', desc: 'Hassle-free' },
               { icon: ShieldCheck, title: '2-year warranty', desc: 'Quality assured' },
             ].map(({ icon: Icon, title, desc }) => (
@@ -350,8 +350,8 @@ export function ProductDetailPage({ productId, initialProduct }: { productId: st
           </div>
           <div className="space-y-4">
             {[
-              { name: 'Emily K.', date: '2 weeks ago', rating: 5, text: 'Exceeded my expectations. The quality is fantastic and shipping was fast.' },
-              { name: 'Marcus B.', date: '1 month ago', rating: 4, text: 'Great value for the price. Took one star off because I wish there were more color options.' },
+              { name: 'Mariam K.', date: '2 weeks ago', rating: 5, text: 'Exceeded my expectations. The quality is fantastic and shipping to Cairo was fast.' },
+              { name: 'Ahmed B.', date: '1 month ago', rating: 4, text: 'Great value for the price. Took one star off because I wish there were more color options available in Egypt.' },
             ].map((r, i) => (
               <div key={i} className="border-t pt-4">
                 <div className="flex items-center gap-3 mb-1">

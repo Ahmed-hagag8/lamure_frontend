@@ -43,8 +43,9 @@ export function Footer() {
           <div className="lg:col-span-2 space-y-4">
             <Logo />
             <p className="text-sm text-muted-foreground max-w-sm">
-              Lumora is a modern multi-category marketplace connecting customers,
-              suppliers, and administrators in one beautiful, animated commerce experience.
+              Lamure is Egypt's premium multi-category marketplace connecting customers,
+              suppliers, and administrators. Shop clothing, electronics, and shoes with a 
+              beautiful, modern experience — all with Egyptian quality and style.
             </p>
             <div className="flex gap-2">
               {[Twitter, Instagram, Facebook, Github].map((Icon, i) => (
@@ -81,7 +82,7 @@ export function Footer() {
         <div className="mt-10 grid gap-4 rounded-2xl border bg-card p-5 sm:grid-cols-2 sm:items-center">
           <div>
             <h4 className="text-sm font-semibold">Stay in the loop</h4>
-            <p className="text-xs text-muted-foreground">Subscribe for new arrivals, deals, and insider news.</p>
+            <p className="text-xs text-muted-foreground">Subscribe for new arrivals, deals, and insider news from Egypt.</p>
           </div>
           <form className="flex gap-2" onSubmit={(e) => e.preventDefault()}>
             <Input type="email" placeholder="Enter your email" className="bg-background" />
@@ -92,7 +93,7 @@ export function Footer() {
         </div>
 
         <div className="mt-8 flex flex-col items-center justify-between gap-3 border-t pt-6 text-xs text-muted-foreground sm:flex-row">
-          <p>© {new Date().getFullYear()} Lumora Marketplace. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Lamure Egypt. All rights reserved.</p>
           <div className="flex gap-4">
             <button className="hover:text-foreground transition-colors">Privacy</button>
             <button className="hover:text-foreground transition-colors">Terms</button>

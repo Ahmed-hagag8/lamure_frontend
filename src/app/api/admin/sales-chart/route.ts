@@ -33,12 +33,29 @@ export async function GET() {
     }
   }
 
-  // Sales by category
-  const products = await db.product.findMany({ include: { category: true, orderItems: true } })
+  // Sales by category — FIX N+1: Use aggregation with groupBy instead of loading ALL products + orderItems
+  // Single query: join orderItems → products → categories and aggregate
+  const salesByCategory = await db.orderItem.groupBy({
+    by: ['productId'],
+    _sum: { quantity: true },
+  })
+
+  // Batch-fetch only the products we need with their categories (single query with include)
+  const productIds = salesByCategory.map((s) => s.productId)
+  const products = productIds.length > 0
+    ? await db.product.findMany({
+        where: { id: { in: productIds } },
+        select: { id: true, category: { select: { name: true } } },
+      })
+    : []
+
+  // Build a lookup map for O(1) access instead of O(n) find per item
+  const productMap = new Map(products.map((p) => [p.id, p.category.name]))
+
   const byCategory: Record<string, number> = {}
-  for (const p of products) {
-    const sold = p.orderItems.reduce((sum, oi) => sum + oi.quantity, 0)
-    byCategory[p.category.name] = (byCategory[p.category.name] ?? 0) + sold
+  for (const s of salesByCategory) {
+    const categoryName = productMap.get(s.productId) ?? 'Unknown'
+    byCategory[categoryName] = (byCategory[categoryName] ?? 0) + (s._sum.quantity ?? 0)
   }
 
   return NextResponse.json({

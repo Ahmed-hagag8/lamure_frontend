@@ -46,7 +46,7 @@ export function discountedPrice(price: number, discount: number): number {
 }
 
 export function formatPrice(value: number): string {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value)
+  return new Intl.NumberFormat('en-EG', { style: 'currency', currency: 'EGP' }).format(value)
 }
 
 export function canBuy(role: Role): boolean {

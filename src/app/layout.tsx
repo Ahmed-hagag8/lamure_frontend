@@ -16,18 +16,18 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Lumora — Modern Marketplace for Clothing, Electronics & Shoes",
+  title: "Lamure — Premium Egyptian Marketplace for Clothing, Electronics & Shoes",
   description:
-    "Lumora is a modern multi-category marketplace connecting customers, suppliers, and admins. Shop clothing, electronics, and shoes with a premium, animated experience.",
-  keywords: ["ecommerce", "clothing", "electronics", "shoes", "marketplace", "Lumora"],
-  authors: [{ name: "Lumora Team" }],
+    "Lamure is Egypt's premium multi-category marketplace connecting customers, suppliers, and admins. Shop clothing, electronics, and shoes with a modern, animated experience. أفضل تجربة تسوق في مصر.",
+  keywords: ["ecommerce", "clothing", "electronics", "shoes", "marketplace", "Lamure", "Egypt", "مصر", "تسوق"],
+  authors: [{ name: "Lamure Egypt" }],
   icons: {
     icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
   },
   openGraph: {
-    title: "Lumora — Modern Marketplace",
-    description: "Multi-category e-commerce platform with role-based experiences.",
-    siteName: "Lumora",
+    title: "Lamure — Premium Egyptian Marketplace",
+    description: "Egypt's finest multi-category e-commerce platform with role-based experiences.",
+    siteName: "Lamure",
     type: "website",
   },
 };

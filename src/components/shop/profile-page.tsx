@@ -142,7 +142,7 @@ export function ProfilePage() {
                 <Label htmlFor="phone">Phone</Label>
                 <div className="relative">
                   <Phone className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} className="pl-9" placeholder="+1 555-0100" />
+                  <Input id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} className="pl-9" placeholder="+20 100-XXX-XXXX" />
                 </div>
               </div>
               <div className="space-y-1.5 sm:col-span-2">

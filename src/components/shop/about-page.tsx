@@ -14,21 +14,22 @@ export function AboutPage() {
         <Badge variant="secondary" className="mb-3 gap-1 rounded-full">
           <Sparkles className="h-3 w-3" /> Our story
         </Badge>
-        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">Built for shoppers, sellers, and teams</h1>
+        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">Built for Egypt — by Egyptians</h1>
         <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
-          Lumora was born from a simple idea: a modern marketplace should be beautiful,
-          fast, and effortless for everyone — customers, suppliers, and admins alike.
+          Lamure was born from a simple idea: Egypt deserves a modern marketplace that is beautiful,
+          fast, and effortless for everyone — customers, suppliers, and admins alike. From Cairo to Aswan,
+          we deliver quality and style to every corner of the country.
         </p>
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {[
-          { icon: Users, title: 'For everyone', desc: 'Four tailored experiences — customers, admins, suppliers, and guests — each with the right tools.' },
-          { icon: Shield, title: 'Trust first', desc: 'Secure payments, verified suppliers, and quality assurance on every purchase.' },
-          { icon: Globe, title: 'Multi-category', desc: 'Clothing, electronics, and shoes — curated departments covering the essentials of modern life.' },
-          { icon: Heart, title: 'Designed with care', desc: 'Every interaction is crafted to be intuitive, animated, and delightful.' },
-          { icon: Award, title: 'Premium quality', desc: 'We partner with reputable suppliers to bring you products worth loving.' },
-          { icon: Sparkles, title: 'Always evolving', desc: 'We ship improvements every week, guided by our community\'s feedback.' },
+          { icon: Users, title: 'For everyone', desc: 'Four tailored experiences — customers, admins, suppliers, and guests — each with the right tools for the Egyptian market.' },
+          { icon: Shield, title: 'Trust first', desc: 'Secure payments, cash on delivery, verified suppliers, and quality assurance on every purchase across Egypt.' },
+          { icon: Globe, title: 'Multi-category', desc: 'Clothing, electronics, and shoes — curated departments covering the essentials of modern Egyptian life.' },
+          { icon: Heart, title: 'Designed with care', desc: 'Every interaction is crafted to be intuitive, animated, and delightful — inspired by Egypt\'s rich heritage.' },
+          { icon: Award, title: 'Premium quality', desc: 'We partner with reputable Egyptian and international suppliers to bring you products worth loving.' },
+          { icon: Sparkles, title: 'Always evolving', desc: 'We ship improvements every week, guided by our Egyptian community\'s feedback.' },
         ].map(({ icon: Icon, title, desc }, i) => (
           <div key={title} className="rounded-2xl border bg-card p-6 hover-lift animate-fade-in-up" style={{ animationDelay: `${i * 80}ms` }}>
             <div className="grid h-11 w-11 place-items-center rounded-xl bg-primary/10 text-primary">
@@ -43,7 +44,7 @@ export function AboutPage() {
       <div className="mt-16 rounded-3xl bg-gradient-to-br from-primary to-chart-3 p-8 text-center text-primary-foreground sm:p-12">
         <h2 className="text-3xl font-bold">Ready to start shopping?</h2>
         <p className="mt-2 text-primary-foreground/80 max-w-xl mx-auto">
-          Join thousands of happy customers and discover the Lumora difference today.
+          Join thousands of happy Egyptian customers and discover the Lamure difference today.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Button size="lg" variant="secondary" onClick={() => navigate({ name: 'shop' })}>Browse products</Button>

@@ -9,15 +9,24 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
   }
 
-  // Verify stock and compute total
+  // Verify stock and compute total — single batch query instead of N queries
   const productIds = items.map((i: any) => i.productId)
   const products = await db.product.findMany({ where: { id: { in: productIds } } })
+
+  // Use a Map for O(1) lookup instead of O(n) find per item
+  const productMap = new Map(products.map((p) => [p.id, p]))
 
   let total = 0
   const orderItems: any[] = []
   for (const item of items) {
-    const p = products.find((pp) => pp.id === item.productId)
+    const p = productMap.get(item.productId)
     if (!p) continue
+    if (p.stock < item.quantity) {
+      return NextResponse.json(
+        { error: `Insufficient stock for "${p.name}". Available: ${p.stock}` },
+        { status: 400 }
+      )
+    }
     const unitPrice = p.price * (1 - p.discount / 100)
     total += unitPrice * item.quantity
     orderItems.push({
@@ -27,25 +36,35 @@ export async function POST(req: NextRequest) {
     })
   }
 
-  const order = await db.order.create({
-    data: {
-      userId,
-      total,
-      status: 'PAID',
-      paymentMethod: paymentMethod || 'CARD',
-      address,
-      items: { create: orderItems },
-    },
-    include: { items: { include: { product: true } } },
-  })
-
-  // Decrement stock
-  for (const item of items) {
-    await db.product.update({
-      where: { id: item.productId },
-      data: { stock: { decrement: item.quantity } },
+  // Use a transaction to ensure atomicity of order creation + stock decrement
+  // This prevents race conditions and ensures consistency
+  const order = await db.$transaction(async (tx) => {
+    // Create order with items in one query
+    const newOrder = await tx.order.create({
+      data: {
+        userId,
+        total,
+        status: 'PAID',
+        paymentMethod: paymentMethod || 'CARD',
+        address,
+        items: { create: orderItems },
+      },
+      include: { items: { include: { product: true } } },
     })
-  }
+
+    // Batch stock decrement using Promise.all instead of sequential awaits
+    // This runs all updates concurrently within the transaction
+    await Promise.all(
+      items.map((item: any) =>
+        tx.product.update({
+          where: { id: item.productId },
+          data: { stock: { decrement: item.quantity } },
+        })
+      )
+    )
+
+    return newOrder
+  })
 
   return NextResponse.json(order)
 }
@@ -64,8 +83,18 @@ export async function GET(req: NextRequest) {
     where,
     orderBy: { createdAt: 'desc' },
     include: {
-      user: true,
-      items: { include: { product: true } },
+      user: {
+        // Select only needed fields instead of entire user object
+        select: { id: true, name: true, email: true },
+      },
+      items: {
+        include: {
+          product: {
+            // Select only needed fields instead of entire product
+            select: { id: true, name: true, images: true, price: true },
+          },
+        },
+      },
     },
     take: 100,
   })

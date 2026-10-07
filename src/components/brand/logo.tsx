@@ -10,8 +10,8 @@ export function Logo({ className = '' }: { className?: string }) {
         <div className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-chart-4 animate-pulse-glow" />
       </div>
       <div className="flex flex-col leading-none">
-        <span className="text-lg font-bold tracking-tight">Lumora</span>
-        <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Marketplace</span>
+        <span className="text-lg font-bold tracking-tight">Lamure</span>
+        <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Egypt</span>
       </div>
     </div>
   )

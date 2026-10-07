@@ -229,7 +229,7 @@ export function Header() {
       <div className="border-t border-border/60 bg-gradient-to-r from-primary/10 via-chart-3/10 to-primary/10 text-center">
         <p className="mx-auto max-w-7xl px-4 py-1.5 text-xs text-muted-foreground">
           <Sparkles className="inline h-3 w-3 mr-1 -translate-y-px" />
-          Free shipping over $75 · 30-day returns · New season styles just dropped
+          Free shipping over 500 EGP · 30-day returns · New season styles just dropped across Egypt 🇪🇬
         </p>
       </div>
     </header>

@@ -199,7 +199,7 @@ export function AdminDashboard() {
                     contentStyle={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 12, fontSize: 12 }}
                     labelStyle={{ color: 'var(--foreground)' }}
                   />
-                  <Area type="monotone" dataKey="total" stroke="#10b981" strokeWidth={2} fill="url(#rev)" name="Revenue ($)" />
+                  <Area type="monotone" dataKey="total" stroke="#10b981" strokeWidth={2} fill="url(#rev)" name="Revenue (EGP)" />
                   <Area type="monotone" dataKey="count" stroke="#06b6d4" strokeWidth={2} fill="url(#ord)" name="Orders" />
                 </AreaChart>
               </ResponsiveContainer>

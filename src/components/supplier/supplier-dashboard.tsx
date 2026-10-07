@@ -381,7 +381,7 @@ function ProductEditDialog({
               <Textarea id="p-desc" required value={description} onChange={(e) => setDescription(e.target.value)} rows={3} placeholder="Describe the product, materials, features…" />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="p-price">Price ($) *</Label>
+              <Label htmlFor="p-price">Price (EGP) *</Label>
               <Input id="p-price" type="number" step="0.01" required value={price} onChange={(e) => setPrice(e.target.value)} />
             </div>
             <div className="space-y-1.5">
