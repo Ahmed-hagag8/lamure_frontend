@@ -99,9 +99,10 @@ function toHash(route: Route): string {
 }
 
 export function RouterProvider({ children }: { children: React.ReactNode }) {
-  const [route, setRoute] = React.useState<Route>(() => parseHash())
+  const [route, setRoute] = React.useState<Route>({ name: 'home' })
 
   React.useEffect(() => {
+    setRoute(parseHash())
     const onHashChange = () => setRoute(parseHash())
     window.addEventListener('hashchange', onHashChange)
     return () => window.removeEventListener('hashchange', onHashChange)
