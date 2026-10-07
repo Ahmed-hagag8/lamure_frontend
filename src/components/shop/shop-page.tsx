@@ -59,7 +59,15 @@ export function ShopPage({ initialProducts, categories, initialCategory, initial
     if (category !== (initialCategory ?? 'all')) {
       navigate({ name: 'shop', category: category !== 'all' ? category : undefined, search: search || undefined })
     }
-  }, [category])
+  }, [category, search])
+
+  React.useEffect(() => {
+    setCategory(initialCategory ?? 'all')
+  }, [initialCategory])
+
+  React.useEffect(() => {
+    setSearch(initialSearch ?? '')
+  }, [initialSearch])
 
   function clearFilters() {
     setCategory('all')

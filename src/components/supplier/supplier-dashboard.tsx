@@ -420,16 +420,41 @@ function ProductEditDialog({
           {/* Images */}
           <div className="space-y-1.5">
             <Label>Images</Label>
-            <div className="flex gap-2">
+            <div className="flex flex-col gap-2">
               <Input
-                value={imageInput}
-                onChange={(e) => setImageInput(e.target.value)}
-                placeholder="Paste image URL"
-                onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addImage() } }}
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files?.[0]
+                  if (file) {
+                    const reader = new FileReader()
+                    reader.onload = (ev) => {
+                      if (ev.target?.result) {
+                        setImages(prev => [...prev, ev.target!.result as string])
+                      }
+                    }
+                    reader.readAsDataURL(file)
+                  }
+                  e.target.value = ''
+                }}
+                className="cursor-pointer file:text-foreground file:bg-muted file:border-0 file:mr-4 file:py-1 file:px-3 file:rounded-md hover:file:bg-muted/80"
               />
-              <Button type="button" onClick={addImage} variant="outline" className="shrink-0 gap-1">
-                <Plus className="h-4 w-4" /> Add
-              </Button>
+              <div className="flex items-center gap-2">
+                <div className="h-px bg-border flex-1"></div>
+                <span className="text-xs text-muted-foreground uppercase">or paste url</span>
+                <div className="h-px bg-border flex-1"></div>
+              </div>
+              <div className="flex gap-2">
+                <Input
+                  value={imageInput}
+                  onChange={(e) => setImageInput(e.target.value)}
+                  placeholder="Paste image URL"
+                  onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addImage() } }}
+                />
+                <Button type="button" onClick={addImage} variant="outline" className="shrink-0 gap-1">
+                  <Plus className="h-4 w-4" /> Add
+                </Button>
+              </div>
             </div>
             {images.length > 0 && (
               <div className="mt-2 flex flex-wrap gap-2">
