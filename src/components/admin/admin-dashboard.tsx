@@ -220,7 +220,7 @@ export function AdminDashboard() {
               <ResponsiveContainer width="100%" height={280}>
                 <PieChart>
                   <Pie
-                    data={chart.byCategory.length ? chart.byCategory : stats?.categories.map((c) => ({ name: c.name, value: c.productCount })) || []}
+                    data={(chart.byCategory.length ? chart.byCategory : stats?.categories.map((c) => ({ name: c.name, value: c.productCount })) || []).map(item => ({ ...item, value: Number(item.value) }))}
                     dataKey="value"
                     nameKey="name"
                     cx="50%"
