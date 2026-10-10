@@ -2,7 +2,7 @@
 
 import { Logo } from '@/components/brand/logo'
 import { useRouter } from '@/lib/router'
-import { Twitter, Instagram, Facebook, Github, Send } from 'lucide-react'
+import { Twitter, Instagram, Facebook, Send } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
@@ -48,7 +48,7 @@ export function Footer() {
               beautiful, modern experience — all with Egyptian quality and style.
             </p>
             <div className="flex gap-2">
-              {[Twitter, Instagram, Facebook, Github].map((Icon, i) => (
+              {[Twitter, Instagram, Facebook].map((Icon, i) => (
                 <button
                   key={i}
                   className="grid h-9 w-9 place-items-center rounded-lg border bg-card text-muted-foreground hover:text-primary hover:border-primary transition-colors"
