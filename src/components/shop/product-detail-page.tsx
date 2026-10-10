@@ -238,7 +238,7 @@ export function ProductDetailPage({ productId, initialProduct }: { productId: st
                 <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Select Size</p>
                 <div className="flex flex-wrap gap-2">
                   {/* Mocking multiple sizes based on the base size for UI purposes */}
-                  {[product.size, 'M', 'L'].map((s) => (
+                  {[product.size].map((s) => (      
                     <button
                       key={s}
                       className={`grid h-10 w-12 place-items-center rounded-lg border font-medium transition-all ${
