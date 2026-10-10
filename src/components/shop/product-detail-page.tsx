@@ -8,7 +8,8 @@ import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useCart, useAuth, useUI } from '@/lib/store'
+import { Textarea } from '@/components/ui/textarea'
+import { useCart, useAuth, useUI, useWishlist } from '@/lib/store'
 import { useRouter } from '@/lib/router'
 import { formatPrice, discountedPrice, type ProductDTO } from '@/lib/types'
 import {
@@ -20,7 +21,7 @@ import { toast } from 'sonner'
 export function ProductDetailPage({ productId, initialProduct }: { productId: string; initialProduct?: ProductDTO }) {
   const { navigate } = useRouter()
   const { add } = useCart()
-  const { role } = useAuth()
+  const { role, user } = useAuth()
   const { setCartOpen } = useUI()
 
   const [product, setProduct] = React.useState<ProductDTO | null>(initialProduct ?? null)
@@ -28,7 +29,13 @@ export function ProductDetailPage({ productId, initialProduct }: { productId: st
   const [loading, setLoading] = React.useState(!initialProduct)
   const [activeImage, setActiveImage] = React.useState(0)
   const [qty, setQty] = React.useState(1)
-  const [liked, setLiked] = React.useState(false)
+  const wishlist = useWishlist()
+  const isLiked = product ? wishlist.has(product.id) : false
+
+  const [reviews, setReviews] = React.useState<any[]>([])
+  const [reviewText, setReviewText] = React.useState('')
+  const [reviewRating, setReviewRating] = React.useState(5)
+  const [submittingReview, setSubmittingReview] = React.useState(false)
 
   React.useEffect(() => {
     if (initialProduct) {
@@ -52,7 +59,41 @@ export function ProductDetailPage({ productId, initialProduct }: { productId: st
       .then((r) => r.json())
       .then((items: ProductDTO[]) => setRelated(items.filter((p) => p.id !== product.id).slice(0, 4)))
       .catch(() => {})
+
+    fetch(`/api/products/${product.id}/reviews`)
+      .then((r) => r.json())
+      .then(setReviews)
+      .catch(() => {})
   }, [product])
+
+  async function submitReview(e: React.FormEvent) {
+    e.preventDefault()
+    if (!user) {
+      toast.error('You must be logged in to leave a review')
+      navigate({ name: 'login' })
+      return
+    }
+    if (!reviewText.trim()) return
+    setSubmittingReview(true)
+    try {
+      const res = await fetch(`/api/products/${product!.id}/reviews`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: user.id, rating: reviewRating, text: reviewText })
+      })
+      if (res.ok) {
+        const newReview = await res.json()
+        setReviews([newReview, ...reviews])
+        setReviewText('')
+        setReviewRating(5)
+        toast.success('Review added successfully!')
+      } else {
+        toast.error('Failed to submit review')
+      }
+    } finally {
+      setSubmittingReview(false)
+    }
+  }
 
   if (loading || !product) {
     return (
@@ -191,28 +232,49 @@ export function ProductDetailPage({ productId, initialProduct }: { productId: st
 
           <p className="text-muted-foreground leading-relaxed">{product.description}</p>
 
-          <div className="grid grid-cols-2 gap-3 text-sm">
+          <div className="grid grid-cols-2 gap-4 text-sm mt-4">
             {product.size && (
-              <div className="rounded-lg border bg-card p-3">
-                <p className="text-xs text-muted-foreground">Size</p>
-                <p className="font-medium">{product.size}</p>
+              <div className="space-y-2">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Select Size</p>
+                <div className="flex flex-wrap gap-2">
+                  {/* Mocking multiple sizes based on the base size for UI purposes */}
+                  {[product.size, 'M', 'L'].map((s) => (
+                    <button
+                      key={s}
+                      className={`grid h-10 w-12 place-items-center rounded-lg border font-medium transition-all ${
+                        s === product.size ? 'border-primary bg-primary text-primary-foreground shadow-sm shadow-primary/30' : 'hover:border-primary/50 bg-card hover:bg-accent'
+                      }`}
+                    >
+                      {s}
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
             {product.color && (
-              <div className="rounded-lg border bg-card p-3">
-                <p className="text-xs text-muted-foreground">Color</p>
-                <p className="font-medium">{product.color}</p>
+              <div className="space-y-2">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Select Color</p>
+                <div className="flex flex-wrap gap-2">
+                  <button className="grid h-10 w-full place-items-center rounded-lg border border-primary bg-primary/10 text-primary font-medium transition-all shadow-sm">
+                    {product.color}
+                  </button>
+                </div>
               </div>
             )}
-            <div className="rounded-lg border bg-card p-3">
-              <p className="text-xs text-muted-foreground">Stock</p>
-              <p className={`font-medium ${outOfStock ? 'text-destructive' : 'text-primary'}`}>
-                {outOfStock ? 'Out of stock' : `${product.stock} available`}
-              </p>
-            </div>
-            <div className="rounded-lg border bg-card p-3">
-              <p className="text-xs text-muted-foreground">Supplier</p>
-              <p className="font-medium truncate">{product.supplierName}</p>
+            <div className="col-span-2 flex gap-4 mt-2">
+              <div className="flex-1 rounded-xl border bg-card/50 p-3 flex items-center gap-3 backdrop-blur-sm">
+                <div className={`h-2.5 w-2.5 rounded-full ${outOfStock ? 'bg-destructive' : 'bg-emerald-500 animate-pulse'}`} />
+                <div>
+                  <p className="text-xs text-muted-foreground font-medium">Availability</p>
+                  <p className={`text-sm font-semibold ${outOfStock ? 'text-destructive' : 'text-emerald-500'}`}>
+                    {outOfStock ? 'Out of stock' : `${product.stock} in stock`}
+                  </p>
+                </div>
+              </div>
+              <div className="flex-1 rounded-xl border bg-card/50 p-3 backdrop-blur-sm">
+                <p className="text-xs text-muted-foreground font-medium">Supplier</p>
+                <p className="text-sm font-semibold truncate">{product.supplierName}</p>
+              </div>
             </div>
           </div>
 
@@ -247,8 +309,19 @@ export function ProductDetailPage({ productId, initialProduct }: { productId: st
               Buy Now
             </Button>
 
-            <Button size="icon" variant="outline" className="h-11 w-11" onClick={() => { setLiked(!liked); toast.success(liked ? 'Removed from wishlist' : 'Added to wishlist') }} aria-label="Wishlist">
-              <Heart className={`h-5 w-5 ${liked ? 'fill-chart-4 text-chart-4' : ''}`} />
+            <Button size="icon" variant="outline" className="h-11 w-11" onClick={() => {
+              if (product) {
+                wishlist.toggle({
+                  productId: product.id,
+                  name: product.name,
+                  price: product.price,
+                  image: product.images[0],
+                  categorySlug: product.categorySlug
+                })
+                toast.success(isLiked ? 'Removed from wishlist' : 'Added to wishlist')
+              }
+            }} aria-label="Wishlist">
+              <Heart className={`h-5 w-5 ${isLiked ? 'fill-chart-4 text-chart-4' : ''}`} />
             </Button>
             <Button size="icon" variant="outline" className="h-11 w-11" onClick={() => toast.success('Link copied to clipboard')} aria-label="Share">
               <Share2 className="h-5 w-5" />
@@ -321,56 +394,77 @@ export function ProductDetailPage({ productId, initialProduct }: { productId: st
           </table>
         </TabsContent>
         <TabsContent value="reviews" className="mt-6 rounded-xl border bg-card p-6">
-          <div className="flex items-center gap-6 mb-6">
-            <div className="text-center">
-              <div className="text-5xl font-bold">{product.rating.toFixed(1)}</div>
-              <div className="mt-1 flex justify-center gap-0.5">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className={`h-4 w-4 ${i < Math.round(product.rating) ? 'fill-chart-4 text-chart-4' : 'text-muted-foreground'}`} />
-                ))}
+          <div className="flex flex-col md:flex-row gap-8">
+            <div className="md:w-1/3">
+              <div className="text-center mb-6">
+                <div className="text-5xl font-bold">{product.rating.toFixed(1)}</div>
+                <div className="mt-1 flex justify-center gap-0.5">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} className={`h-4 w-4 ${i < Math.round(product.rating) ? 'fill-chart-4 text-chart-4' : 'text-muted-foreground'}`} />
+                  ))}
+                </div>
+                <p className="mt-1 text-xs text-muted-foreground">{product.reviewCount} reviews</p>
               </div>
-              <p className="mt-1 text-xs text-muted-foreground">{product.reviewCount} reviews</p>
-            </div>
-            <Separator orientation="vertical" className="h-24" />
-            <div className="flex-1 space-y-1.5">
-              {[5, 4, 3, 2, 1].map((star) => {
-                const pct = star === 5 ? 65 : star === 4 ? 22 : star === 3 ? 8 : star === 2 ? 3 : 2
-                return (
-                  <div key={star} className="flex items-center gap-2 text-xs">
-                    <span className="w-3">{star}</span>
-                    <Star className="h-3 w-3 fill-chart-4 text-chart-4" />
-                    <div className="flex-1 h-2 rounded-full bg-muted overflow-hidden">
-                      <div className="h-full bg-chart-4" style={{ width: `${pct}%` }} />
-                    </div>
-                    <span className="w-8 text-right text-muted-foreground">{pct}%</span>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-          <div className="space-y-4">
-            {[
-              { name: 'Mariam K.', date: '2 weeks ago', rating: 5, text: 'Exceeded my expectations. The quality is fantastic and shipping to Cairo was fast.' },
-              { name: 'Ahmed B.', date: '1 month ago', rating: 4, text: 'Great value for the price. Took one star off because I wish there were more color options available in Egypt.' },
-            ].map((r, i) => (
-              <div key={i} className="border-t pt-4">
-                <div className="flex items-center gap-3 mb-1">
-                  <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-primary to-chart-3 text-sm font-bold text-primary-foreground">
-                    {r.name.charAt(0)}
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium">{r.name}</p>
-                    <p className="text-xs text-muted-foreground">{r.date}</p>
-                  </div>
-                  <div className="ml-auto flex gap-0.5">
-                    {Array.from({ length: 5 }).map((_, j) => (
-                      <Star key={j} className={`h-3 w-3 ${j < r.rating ? 'fill-chart-4 text-chart-4' : 'text-muted-foreground'}`} />
+
+              {user ? (
+                <form onSubmit={submitReview} className="space-y-4 rounded-xl border bg-muted/30 p-4">
+                  <h4 className="font-semibold text-sm">Write a review</h4>
+                  <div className="flex items-center gap-2">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button type="button" key={star} onClick={() => setReviewRating(star)} className="focus:outline-none hover:scale-110 transition-transform">
+                        <Star className={`h-5 w-5 ${star <= reviewRating ? 'fill-chart-4 text-chart-4' : 'text-muted-foreground'}`} />
+                      </button>
                     ))}
                   </div>
+                  <Textarea
+                    placeholder="What did you like or dislike?"
+                    value={reviewText}
+                    onChange={(e) => setReviewText(e.target.value)}
+                    className="min-h-[100px] resize-none"
+                  />
+                  <Button type="submit" disabled={submittingReview} className="w-full">
+                    {submittingReview ? 'Submitting...' : 'Submit Review'}
+                  </Button>
+                </form>
+              ) : (
+                <div className="rounded-xl border bg-muted/30 p-4 text-center">
+                  <p className="text-sm text-muted-foreground mb-3">Sign in to share your thoughts.</p>
+                  <Button variant="outline" size="sm" onClick={() => navigate({ name: 'login' })} className="w-full">Sign In to Review</Button>
                 </div>
-                <p className="text-sm text-muted-foreground">{r.text}</p>
-              </div>
-            ))}
+              )}
+            </div>
+
+            <div className="md:w-2/3">
+              <h3 className="font-semibold mb-4">Customer Reviews</h3>
+              {reviews.length === 0 ? (
+                <div className="text-center py-10 rounded-xl border border-dashed text-muted-foreground">
+                  <Star className="h-8 w-8 mx-auto mb-2 opacity-20" />
+                  <p>No reviews yet. Be the first to review this product!</p>
+                </div>
+              ) : (
+                <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2 no-scrollbar">
+                  {reviews.map((r, i) => (
+                    <div key={i} className="rounded-xl border p-4 bg-card">
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="grid h-9 w-9 place-items-center rounded-full bg-primary/10 font-bold text-primary">
+                          {r.name.charAt(0)}
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium">{r.name}</p>
+                          <p className="text-xs text-muted-foreground">{r.date}</p>
+                        </div>
+                        <div className="ml-auto flex gap-0.5">
+                          {Array.from({ length: 5 }).map((_, j) => (
+                            <Star key={j} className={`h-3.5 w-3.5 ${j < r.rating ? 'fill-chart-4 text-chart-4' : 'text-muted-foreground'}`} />
+                          ))}
+                        </div>
+                      </div>
+                      <p className="text-sm text-muted-foreground mt-2">{r.text}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </TabsContent>
       </Tabs>

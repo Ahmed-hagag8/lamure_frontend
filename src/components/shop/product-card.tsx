@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { useRouter } from '@/lib/router'
-import { useCart, useAuth, useUI } from '@/lib/store'
+import { useCart, useAuth, useUI, useWishlist } from '@/lib/store'
 import { formatPrice, discountedPrice, type ProductDTO } from '@/lib/types'
 import { Star, ShoppingCart, Eye, Heart } from 'lucide-react'
 import { toast } from 'sonner'
@@ -21,7 +21,8 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
   const { add } = useCart()
   const { role } = useAuth()
   const { setCartOpen, setAuthDialogOpen: _ } = useUI()
-  const [liked, setLiked] = React.useState(false)
+  const wishlist = useWishlist()
+  const isLiked = wishlist.has(product.id)
   const canBuy = role === 'CUSTOMER' || role === 'ADMIN'
 
   function handleAdd(e: React.MouseEvent) {
@@ -80,11 +81,20 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
 
         {/* Like */}
         <button
-          onClick={(e) => { e.stopPropagation(); setLiked(!liked) }}
-          className="absolute right-2 top-2 grid h-8 w-8 place-items-center rounded-full bg-background/80 backdrop-blur-sm text-muted-foreground hover:text-chart-4 transition-colors"
+          onClick={(e) => {
+            e.stopPropagation()
+            wishlist.toggle({
+              productId: product.id,
+              name: product.name,
+              price: product.price,
+              image: product.images[0],
+              categorySlug: product.categorySlug
+            })
+          }}
+          className="absolute right-2 top-2 grid h-8 w-8 place-items-center rounded-full bg-background/80 backdrop-blur-sm text-muted-foreground hover:text-chart-4 transition-colors z-10"
           aria-label="Toggle favorite"
         >
-          <Heart className={`h-4 w-4 ${liked ? 'fill-chart-4 text-chart-4' : ''}`} />
+          <Heart className={`h-4 w-4 ${isLiked ? 'fill-chart-4 text-chart-4' : ''}`} />
         </button>
 
         {/* Hover overlay actions */}

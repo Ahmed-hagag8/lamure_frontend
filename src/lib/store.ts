@@ -120,3 +120,35 @@ export const useUI = create<UIState>((set) => ({
   authDialogOpen: false,
   setAuthDialogOpen: (open) => set({ authDialogOpen: open }),
 }))
+
+export interface WishlistItem {
+  productId: string
+  name: string
+  price: number
+  image: string
+  categorySlug: string
+}
+
+interface WishlistState {
+  items: WishlistItem[]
+  toggle: (item: WishlistItem) => void
+  has: (productId: string) => boolean
+}
+
+export const useWishlist = create<WishlistState>()(
+  persist(
+    (set, get) => ({
+      items: [],
+      toggle: (item) =>
+        set((s) => {
+          const exists = s.items.some((i) => i.productId === item.productId)
+          if (exists) {
+            return { items: s.items.filter((i) => i.productId !== item.productId) }
+          }
+          return { items: [...s.items, item] }
+        }),
+      has: (productId) => get().items.some((i) => i.productId === productId),
+    }),
+    { name: 'shop-wishlist' }
+  )
+)

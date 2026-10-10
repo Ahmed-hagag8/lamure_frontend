@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from '@/lib/router'
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
@@ -17,6 +18,7 @@ import { ContactPage } from '@/components/shop/contact-page'
 import { AdminDashboard } from '@/components/admin/admin-dashboard'
 import { SupplierDashboard } from '@/components/supplier/supplier-dashboard'
 import { AuthPage } from '@/components/auth/auth-page'
+import { WishlistPage } from '@/components/shop/wishlist-page'
 import type { ProductDTO, CategoryDTO } from '@/lib/types'
 
 interface AppShellProps {
@@ -57,6 +59,9 @@ export function AppShell({ initialProducts, categories }: AppShellProps) {
       case 'orders':
         return <OrdersPage />
 
+      case 'wishlist':
+        return <WishlistPage />
+
       case 'admin':
         return <AdminDashboard />
 
@@ -83,7 +88,20 @@ export function AppShell({ initialProducts, categories }: AppShellProps) {
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
-      <main className="flex-1">{renderRoute()}</main>
+      <main className="flex-1 relative">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={route.name}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            className="w-full h-full"
+          >
+            {renderRoute()}
+          </motion.div>
+        </AnimatePresence>
+      </main>
       <Footer />
       <CartDrawer />
     </div>

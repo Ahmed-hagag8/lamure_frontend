@@ -16,6 +16,7 @@ type Route =
   | { name: 'contact' }
   | { name: 'login' }
   | { name: 'register' }
+  | { name: 'wishlist' }
 
 interface RouterCtx {
   route: Route
@@ -57,6 +58,8 @@ function parseHash(): Route {
       return { name: 'login' }
     case 'register':
       return { name: 'register' }
+    case 'wishlist':
+      return { name: 'wishlist' }
     default:
       return { name: 'home' }
   }
@@ -95,6 +98,8 @@ function toHash(route: Route): string {
       return '#/login'
     case 'register':
       return '#/register'
+    case 'wishlist':
+      return '#/wishlist'
   }
 }
 

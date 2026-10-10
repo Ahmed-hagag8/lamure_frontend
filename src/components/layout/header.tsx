@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { Logo } from '@/components/brand/logo'
-import { useAuth, useCart, useUI } from '@/lib/store'
+import { useAuth, useCart, useUI, useWishlist } from '@/lib/store'
 import { useRouter } from '@/lib/router'
 import { toast } from 'sonner'
 import {
@@ -43,6 +43,7 @@ const ROLE_LABELS: Record<Role, { label: string; color: string }> = {
 export function Header() {
   const { user, role, logout } = useAuth()
   const { lines } = useCart()
+  const { items: wishlistItems } = useWishlist()
   const { setCartOpen } = useUI()
   const { navigate, route } = useRouter()
   const { theme, setTheme } = useTheme()
@@ -160,6 +161,21 @@ export function Header() {
           <Button
             variant="ghost"
             size="icon"
+            aria-label="Wishlist"
+            className="relative"
+            onClick={() => navigate({ name: 'wishlist' })}
+          >
+            <Heart className="h-5 w-5" />
+            {wishlistItems.length > 0 && (
+              <span className="absolute -right-0.5 -top-0.5 grid h-5 min-w-5 place-items-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground animate-scale-in">
+                {wishlistItems.length}
+              </span>
+            )}
+          </Button>
+
+          <Button
+            variant="ghost"
+            size="icon"
             aria-label="Open cart"
             className="relative"
             onClick={() => setCartOpen(true)}
@@ -196,6 +212,9 @@ export function Header() {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => navigate({ name: 'profile' })}>
                   <UserCircle className="mr-2 h-4 w-4" /> Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate({ name: 'wishlist' })}>
+                  <Heart className="mr-2 h-4 w-4" /> My Wishlist
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => navigate({ name: 'orders' })}>
                   <Package className="mr-2 h-4 w-4" /> My Orders
